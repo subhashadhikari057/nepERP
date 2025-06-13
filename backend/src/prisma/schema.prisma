@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Role {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique       // e.g. "Admin", "HR", "Accountant"
+  createdAt DateTime @default(now())
+
+  // Relations
+  users     User[]
+}
+
+
+
+model Tenant {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique                     // company legal name
+  code        String?   @unique                     // short code like "RRBS"
+  address     String?                               // billing address
+  phone       String?                               // main contact
+  fiscalYearStart DateTime?                         // optional Nepali FY start
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // ── Relations ─────────────────────────────────────────────────────────
+  users       User[]                                // one-to-many: Tenant → Users
+}
+
+
+
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  tenantId  Int
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+
+  roleId    Int
+  role      Role     @relation(fields: [roleId], references: [id])
+}
+
+
+
+

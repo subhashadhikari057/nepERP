@@ -1,0 +1,26 @@
+# ───────── General ─────────
+.DS_Store
+.env
+.env.*          # any env variants
+*.log
+logs/
+npm-debug.log*
+
+# ───────── Node / Express ─────────
+node_modules/
+dist/
+coverage/
+
+# ───────── Prisma ─────────
+prisma/dev.db   # if you ever use SQLite locally
+# migrations are kept; do NOT ignore prisma/migrations
+
+# ───────── Front-end (future React) ─────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# ───────── Editors / IDEs ─────────
+.vscode/
+.idea/
+*.sw?
